@@ -1,4 +1,4 @@
-package enumsx
+package enumx
 
 import (
 	"encoding/json"

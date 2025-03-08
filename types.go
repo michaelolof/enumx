@@ -1,4 +1,4 @@
-package enumsx
+package enumx
 
 type EnumString string
 
