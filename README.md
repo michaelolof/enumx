@@ -6,7 +6,7 @@ An enum is a closed set of possible variants. This library tries to provide an e
 
 ## Installation
 ```$
-go get -u github.com/michaelolof/emumx
+go get -u github.com/michaelolof/enumx
 ```
 <br>
 <br>
