@@ -126,6 +126,7 @@ func (e *enumGroup[T, V]) NotEquals(a Enum[T, V], b Enum[T, V]) bool {
 type Enum[T constraints.Ordered, V Identity[T]] interface {
 	Id() T
 	Item() V
+	Scan(src any) error
 }
 
 type enum[T constraints.Ordered, V Identity[T]] struct {
