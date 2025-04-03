@@ -42,6 +42,12 @@ func (b *enumGroup[T, V]) item(val V) Enum[T, V] {
 	return &e
 }
 
+// Checks if an enum id key is valid within the define list of enum
+func (e *enumGroup[T, V]) ValidId(id T) bool {
+	_, found := e.enums[id]
+	return found
+}
+
 // Returns the enum item and a found state for a given enum id.
 func (e *enumGroup[T, V]) ById(id T) (Enum[T, V], bool) {
 	en, found := (e.enums)[id]
@@ -156,6 +162,7 @@ type Scanner interface {
 	Scan(src any) error
 }
 
+// Implements the Scanner interface on an enum item
 func (e enum[T, V]) Scan(src any) error {
 	var item any = e.item
 	if v, ok := item.(Scanner); ok {
