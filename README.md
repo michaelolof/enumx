@@ -19,13 +19,13 @@ import (
     "github.com/michaelolof/enumx"
 )
 
-type Colors_ = enumx.Enum[string, colors]
-Colors, set := enumx.Group[string, colors]
+type Color = enumx.Enum[string, color]
+Colors, set := enumx.Group[string, color]
 
 var (
-    Red     = set(colors{name: "red", hex: "#FF0000"})
-    Green   = set(colors{name: "green", hex: "#00FF00"})
-    Blue    = set(colors{name: "blue", hex: "#0000FF"})
+    Red     = set(color{name: "red", hex: "#FF0000"})
+    Green   = set(color{name: "green", hex: "#00FF00"})
+    Blue    = set(color{name: "blue", hex: "#0000FF"})
 )
 
 func main() {
@@ -35,16 +35,16 @@ func main() {
     hex := c.Item().hex
 }
 
-func isGoodGuy(c Colors_) {
+func isGoodGuy(c Color) {
     return Colors.Equal(c, Green)
 }
 
-type colors {
+type color {
     name string
     hex string
 }
 
-func (c colors) Id() string {
+func (c color) Id() string {
     return c.name
 }
 ```
@@ -58,7 +58,7 @@ import (
     "github.com/michaelolof/enumx"
 )
 
-type Colors_ = enumx.Enum[string, enumsx.EnumString]
+type Color = enumx.Enum[string, enumsx.EnumString]
 Colors, set := enumx.Group[string, enumx.EnumString]
 
 var (

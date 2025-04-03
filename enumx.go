@@ -2,6 +2,7 @@ package enumx
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	"golang.org/x/exp/constraints"
@@ -149,4 +150,17 @@ func (e *enum[T, V]) UnmarshalJSON(data []byte) error {
 
 	e.item = val
 	return nil
+}
+
+type Scanner interface {
+	Scan(src any) error
+}
+
+func (e enum[T, V]) Scan(src any) error {
+	var item any = e.item
+	if v, ok := item.(Scanner); ok {
+		return v.Scan(src)
+	} else {
+		return errors.New("missing scanner interface implementation")
+	}
 }
