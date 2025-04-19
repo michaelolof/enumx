@@ -38,8 +38,8 @@ type Color int
 var Colors, set, _ = enumx.New[Color, any](nil)
 var (
     Red Color = set(1, nil)
-    Green = set(2, nil)
-    Blue = set(3, nil)
+    Green     = set(2, nil)
+    Blue      = set(3, nil)
 )
 ```
 `Red`, `Green` and `Blue` are still variables of type `Color` each holding a value of `1`, `2` and `3` respectively except we now have a new enum collection variable `Colors` which holds the list of colors defined by the `set` function
@@ -83,6 +83,7 @@ type countryInfo struct {
 }
 
 func main() {
+    fmt.Println(Nigeria) // NG
     fmt.Println(Nigeria.Name()) // Nigeria
     fmt.Println(Ghana.Dial()) // +233
     fmt.Println(UnitedStates.Iso3()) // USA

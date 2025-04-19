@@ -6,8 +6,8 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-func New[T constraints.Ordered, V any](fallback *T) (group enumGroup[T, V], setter func(k T, v V) T, getter func(val T) V) {
-	g := enumGroup[T, V]{
+func New[T constraints.Ordered, V any](fallback *T) (group collection[T, V], setter func(k T, v V) T, getter func(val T) V) {
+	g := collection[T, V]{
 		enums:    map[T]V{},
 		fallback: fallback,
 	}
@@ -15,12 +15,12 @@ func New[T constraints.Ordered, V any](fallback *T) (group enumGroup[T, V], sett
 	return g, g.set, g.info
 }
 
-type enumGroup[T constraints.Ordered, V any] struct {
+type collection[T constraints.Ordered, V any] struct {
 	fallback *T
 	enums    map[T]V
 }
 
-func (p *enumGroup[T, V]) set(k T, v V) T {
+func (p *collection[T, V]) set(k T, v V) T {
 	if _, found := p.enums[k]; found {
 		panic(fmt.Sprintf("enum item '%v' already exist", k))
 	}
@@ -29,7 +29,7 @@ func (p *enumGroup[T, V]) set(k T, v V) T {
 	return k
 }
 
-func (e *enumGroup[T, V]) info(id T) V {
+func (e *collection[T, V]) info(id T) V {
 	if v, found := (e.enums)[id]; !found {
 		panic("enum not found")
 	} else {
@@ -38,7 +38,7 @@ func (e *enumGroup[T, V]) info(id T) V {
 }
 
 // Returns the enum item and a found state for a given enum id.
-func (e *enumGroup[T, V]) ById(id T) (T, bool) {
+func (e *collection[T, V]) ById(id T) (T, bool) {
 	if _, found := (e.enums)[id]; !found && e.fallback != nil {
 		return *e.fallback, true
 	} else if !found && e.fallback == nil {
@@ -50,7 +50,7 @@ func (e *enumGroup[T, V]) ById(id T) (T, bool) {
 }
 
 // Returns the enum item and a found state for a given enum id.
-func (e *enumGroup[T, V]) MustById(id T) T {
+func (e *collection[T, V]) MustById(id T) T {
 	if v, ok := e.ById(id); !ok {
 		panic(fmt.Sprintf("Enum item '%v' not found", id))
 	} else {
@@ -59,7 +59,7 @@ func (e *enumGroup[T, V]) MustById(id T) T {
 }
 
 // Iterates through the matches an item in the enum based on the predicate function and returns the enum and a found state
-func (e *enumGroup[T, V]) Find(p func(T) bool) (T, bool) {
+func (e *collection[T, V]) Find(p func(T) bool) (T, bool) {
 	for v := range e.enums {
 		if p(v) {
 			return v, true
@@ -74,7 +74,7 @@ func (e *enumGroup[T, V]) Find(p func(T) bool) (T, bool) {
 }
 
 // Iterates through the matches an item in the enum based on the predicate function. Panics if no match is found.
-func (e *enumGroup[T, V]) MustFind(p func(T) bool) T {
+func (e *collection[T, V]) MustFind(p func(T) bool) T {
 	if v, ok := e.Find(p); !ok {
 		panic("Enum item not found")
 	} else {
@@ -83,30 +83,20 @@ func (e *enumGroup[T, V]) MustFind(p func(T) bool) T {
 }
 
 // Len returns the length of the enum list on the base enum
-func (e *enumGroup[T, V]) Len() int {
+func (e *collection[T, V]) Len() int {
 	return len(e.enums)
 }
 
 // Returns a list of all the items in a given enum
-func (e *enumGroup[T, V]) Items() map[T]V {
+func (e *collection[T, V]) Items() map[T]V {
 	return e.enums
 }
 
 // Returns a list of all the items in a given enum
-func (e *enumGroup[T, V]) Values() []T {
+func (e *collection[T, V]) Values() []T {
 	rtn := make([]T, 0, e.Len())
 	for v := range e.enums {
 		rtn = append(rtn, v)
 	}
 	return rtn
-}
-
-// Checks if one enum item matches another item
-func (e *enumGroup[T, V]) Equals(a T, b T) bool {
-	return a == b
-}
-
-// Len returns the length of the enum list on the base enum
-func (e *enumGroup[T, V]) NotEquals(a T, b T) bool {
-	return a != b
 }
