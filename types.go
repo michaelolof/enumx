@@ -1,55 +1,18 @@
 package enumx
 
-type EnumString string
+type Int8 = int8
+type Int16 = int16
+type Int32 = int32
+type Int64 = int64
+type Int = int
 
-func (e EnumString) Id() string {
-	return string(e)
-}
+type UInt8 = uint8
+type UInt16 = uint16
+type UInt32 = uint32
+type UInt64 = uint64
+type UInt = uint
 
-type EnumInt int
+type Float32 = float32
+type Float64 = float64
 
-func (e EnumInt) Id() int {
-	return int(e)
-}
-
-type EnumInt8 int8
-
-func (e EnumInt8) Id() int8 {
-	return int8(e)
-}
-
-type EnumInt16 int16
-
-func (e EnumInt16) Id() int16 {
-	return int16(e)
-}
-
-type EnumInt32 int32
-
-func (e EnumInt32) Id() int32 {
-	return int32(e)
-}
-
-type EnumUint uint
-
-func (e EnumUint) Id() uint {
-	return uint(e)
-}
-
-type EnumUint8 uint8
-
-func (e EnumUint8) Id() uint8 {
-	return uint8(e)
-}
-
-type EnumUint16 uint16
-
-func (e EnumUint16) Id() uint16 {
-	return uint16(e)
-}
-
-type EnumUint32 uint32
-
-func (e EnumUint32) Id() uint32 {
-	return uint32(e)
-}
+type String = string
