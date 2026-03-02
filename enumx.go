@@ -2,6 +2,8 @@ package enumx
 
 import (
 	"fmt"
+	"iter"
+	"maps"
 
 	"golang.org/x/exp/constraints"
 )
@@ -87,16 +89,12 @@ func (e *collection[T, V]) Len() int {
 	return len(e.enums)
 }
 
-// Returns a list of all the items in a given enum
-func (e *collection[T, V]) Items() map[T]V {
-	return e.enums
+// Returns an iterator yielding all the items in a given enum
+func (e *collection[T, V]) Items() iter.Seq2[T, V] {
+	return maps.All(e.enums)
 }
 
-// Returns a list of all the items in a given enum
-func (e *collection[T, V]) Values() []T {
-	rtn := make([]T, 0, e.Len())
-	for v := range e.enums {
-		rtn = append(rtn, v)
-	}
-	return rtn
+// Returns an iterator yielding all the keys in a given enum
+func (e *collection[T, V]) Values() iter.Seq[T] {
+	return maps.Keys(e.enums)
 }
